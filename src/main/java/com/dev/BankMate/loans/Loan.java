@@ -1,8 +1,7 @@
 package com.dev.BankMate.loans;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -13,16 +12,19 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Loans {
+@Entity
+public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int loanNumber;
 
     @NotEmpty
+    @JsonProperty("customerId")
     private int userId ;
 
     @NotEmpty
+    @JsonProperty("startDt")
     private LocalDateTime startDate;
 
     @NotEmpty
@@ -31,10 +33,14 @@ public class Loans {
   @NotEmpty
     private double amountPaid;
 
+    @Column(name = "loan_type")
+    @JsonProperty("loanType")
+    private String loanType;
     @NotEmpty
     private double outstandingAmount;
 
     @NotEmpty
+    @JsonProperty("createDt")
     private LocalDateTime createAt;
 
 

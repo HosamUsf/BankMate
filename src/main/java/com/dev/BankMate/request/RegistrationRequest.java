@@ -10,7 +10,9 @@ public record RegistrationRequest(
         @NotNull
         String password,
         @NotNull
-        String role
+        String role,
+        @NotNull
+        String mobileNumber
 
 ) {
 }

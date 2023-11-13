@@ -1,10 +1,7 @@
 package com.dev.BankMate.notices;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -16,7 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class NoticesDetails {
+@Table(name = "notices_details")
+public class Notice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

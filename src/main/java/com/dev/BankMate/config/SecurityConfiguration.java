@@ -1,59 +1,87 @@
 package com.dev.BankMate.config;
 
+import com.dev.BankMate.filter.CsrfCookieFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf
-                        .ignoringRequestMatchers(toH2Console()).disable()).
-                authorizeHttpRequests(requests -> {
+        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+        requestHandler.setCsrfRequestAttributeName("_csrf");
+
+        return http.securityContext((context) -> context
+                .requireExplicitSave(false))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+
+                // CORS Configuration
+                .cors(withDefaults())  // by default uses a Bean by the name of corsConfigurationSource
+
+                // CSRF Configuration
+                .csrf(csrf -> csrf
+                        .csrfTokenRequestHandler(requestHandler)
+                        .ignoringRequestMatchers("/contassct", "/register")
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+
+                // CSRF Filter
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+
+                // Authorization Rules
+                .authorizeHttpRequests(requests -> {
                             requests.requestMatchers(new AntPathRequestMatcher("/myAccount"),
                                     new AntPathRequestMatcher("/myLoans"),
                                     new AntPathRequestMatcher("/myCards"),
+                                    new AntPathRequestMatcher("/contact"),
+                                    new AntPathRequestMatcher("/user"),
                                     new AntPathRequestMatcher("/myBalance")).authenticated();
 
-                            requests.requestMatchers(new AntPathRequestMatcher("/contact"),
+                            requests.requestMatchers(new AntPathRequestMatcher("/contacts"),
                                     new AntPathRequestMatcher("/notices"),
+                                    new AntPathRequestMatcher("/**"),
                                     new AntPathRequestMatcher("/register")).permitAll();
                         }
-                ).formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults())
+                )
+
+                // Form and Basic Authentication
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults())
+
                 .build();
     }
-//
-//    @Bean
-//    public InMemoryUserDetailsManager UserDetailsService(){
-//        UserDetails admin = User.withUsername("hosam")
-//                .password("123456")
-//                .authorities("admin")
-//                .build();
-//
-//        UserDetails user = User.withUsername("omar")
-//                .password("123456")
-//                .authorities("admin")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin,user);
-//
-//    }
 
 
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource){
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+        configuration.setAllowedMethods(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
 
+
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

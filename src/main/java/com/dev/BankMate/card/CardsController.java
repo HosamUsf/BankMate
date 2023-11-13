@@ -1,4 +1,4 @@
-package com.dev.BankMate.account_transactions;
+package com.dev.BankMate.card;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +9,11 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class BalanceController {
-    private AccountTransactionService service;
+public class CardsController {
+    private CardService service;
 
-    @GetMapping("/myBalance")
-    public List<AccountTransaction> getBalanceDetails(@RequestParam int id) {
-        return service.getBalanceDetails(id);
+    @GetMapping("/myCards")
+    public List<Card> getCardDetails(@RequestParam int id) {
+        return service.getCardDetails(id);
     }
 }

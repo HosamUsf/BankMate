@@ -12,12 +12,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = )
-public class ContactMessage {
+@Table(name = "contact_message")
+public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contactId;
+    private String contactId;
 
     @NotEmpty
     private String contactName;
@@ -31,7 +30,6 @@ public class ContactMessage {
     @NotEmpty
     private String message;
 
-    @NotEmpty
     private LocalDateTime createAt;
 
 

@@ -1,8 +1,8 @@
 package com.dev.BankMate.account_transactions;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class AccountTransactions {
+@Table(name = "account_transactions")
+public class AccountTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +24,11 @@ public class AccountTransactions {
     private int accountNumber ;
 
     @NotEmpty
+    @JsonProperty("customerId")
     private int userId ;
 
     @NotEmpty
+    @JsonProperty("transactionDt")
     private LocalDateTime transactionDate;
 
     @NotEmpty
@@ -35,12 +38,14 @@ public class AccountTransactions {
     private String transactionType;
 
     @NotEmpty
+    @JsonProperty("transactionAmt")
     private double transactionAmount;
 
     @NotEmpty
     private double closingBalance;
 
     @NotEmpty
+    @JsonProperty("createDt")
     private LocalDateTime createAt;
 
 

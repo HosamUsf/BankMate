@@ -1,9 +1,8 @@
 package com.dev.BankMate.config;
 
-import com.dev.BankMate.user.User;
+import com.dev.BankMate.user.AppUser;
 import com.dev.BankMate.user.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -29,12 +27,12 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         String username = authentication.getName();
         String  password = authentication.getCredentials().toString();
 
-        User user = userRepository.findUserByEmail(username)
+        AppUser appUser = userRepository.findUserByEmail(username)
                 .orElseThrow(() -> new BadCredentialsException("Sorry, either your email or password is incorrect."));
 
-        if(passwordEncoder.matches(password,user.getPassword())){
+        if(passwordEncoder.matches(password, appUser.getPassword())){
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getUserRole()));
+            authorities.add(new SimpleGrantedAuthority(appUser.getUserRole()));
             return new UsernamePasswordAuthenticationToken(username,password,authorities);
         } else {
             throw new BadCredentialsException("Sorry, either your email or password is incorrect.");

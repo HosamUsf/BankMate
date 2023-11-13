@@ -1,13 +1,10 @@
 package com.dev.BankMate.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 
@@ -17,13 +14,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+
     private int id;
 
     @NotEmpty
-    private String username;
+    private String name;
 
     @NotEmpty
     private String email;
@@ -32,35 +31,35 @@ public class User {
     private String password;
 
     @NotEmpty
+    @JsonProperty("role")
     private String userRole;
 
     @NotEmpty
-    @Size(min = 11,max = 11)
-    private String mobileNumber ;
+    @Size(min = 11, max = 11)
+    private String mobileNumber;
 
-    @NotEmpty
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     private Boolean locked = false;
 
     private Boolean enabled = false;
 
 
-    public User(User user) {
-        this.id = user.id;
-        this.username = user.username;
-        this.email = user.email;
-        this.password =user.password;
-        this.userRole = user.userRole;
-        this.mobileNumber=user.getMobileNumber();
-        this.createdAt=user.getCreatedAt();
-        this.locked = user.locked;
-        this.enabled = user.enabled;
+    public AppUser(AppUser appUser) {
+        this.id = appUser.id;
+        this.name = appUser.name;
+        this.email = appUser.email;
+        this.password = appUser.password;
+        this.userRole = appUser.userRole;
+        this.mobileNumber = appUser.getMobileNumber();
+        this.createdAt = appUser.getCreatedAt();
+        this.locked = appUser.locked;
+        this.enabled = appUser.enabled;
     }
 
 
-    public User(String username, String email, String password,String mobileNumber, String userRole) {
-        this.username=username;
+    public AppUser(String name, String email, String password, String mobileNumber, String userRole) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.mobileNumber = mobileNumber;
