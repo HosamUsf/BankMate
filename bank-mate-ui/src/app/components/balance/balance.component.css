@@ -1,0 +1,33 @@
+.heading-21921 {
+  position: relative;
+  padding: 0;
+  line-height: 1;
+  font-weight: 900 !important;
+  text-align: left;
+}
+
+.site-section {
+  padding: 3rem 0;
+}
+
+label {
+  font-size: 1rem;
+  text-align: left;
+  display: flex;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 0px;
+  margin-left:  0px;
+}
+
+.table-responsive-md {
+  margin: 50px;
+}
+.btn btn-eazybank {
+  background-color: #57b846; /* Lighter green color */
+  color: #ffffff; /* Text color (white in this case) */
+  /* You can add more styles as needed */
+}

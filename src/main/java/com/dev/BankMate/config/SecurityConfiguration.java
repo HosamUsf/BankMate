@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                 // CSRF Configuration
                 .csrf(csrf -> csrf
                         .csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contassct", "/register")
+                        .ignoringRequestMatchers("/contact", "/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
 
@@ -50,11 +50,10 @@ public class SecurityConfiguration {
                             requests.requestMatchers(new AntPathRequestMatcher("/myAccount"),
                                     new AntPathRequestMatcher("/myLoans"),
                                     new AntPathRequestMatcher("/myCards"),
-                                    new AntPathRequestMatcher("/contact"),
                                     new AntPathRequestMatcher("/user"),
                                     new AntPathRequestMatcher("/myBalance")).authenticated();
 
-                            requests.requestMatchers(new AntPathRequestMatcher("/contacts"),
+                            requests.requestMatchers(new AntPathRequestMatcher("/contact"),
                                     new AntPathRequestMatcher("/notices"),
                                     new AntPathRequestMatcher("/**"),
                                     new AntPathRequestMatcher("/register")).permitAll();
