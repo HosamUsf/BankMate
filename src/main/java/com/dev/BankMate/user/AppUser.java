@@ -1,5 +1,7 @@
 package com.dev.BankMate.user;
 
+import com.dev.BankMate.user.authorites.Authority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,6 +31,7 @@ public class AppUser {
     private String email;
 
     @NotEmpty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotEmpty
@@ -43,6 +47,10 @@ public class AppUser {
     private Boolean locked = false;
 
     private Boolean enabled = false;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Authority> authorities;
+
 
 
     public AppUser(AppUser appUser) {

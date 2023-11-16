@@ -29,7 +29,7 @@ public class SecurityConfiguration {
         requestHandler.setCsrfRequestAttributeName("_csrf");
 
         return http.securityContext((context) -> context
-                .requireExplicitSave(false))
+                        .requireExplicitSave(false))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 
                 // CORS Configuration
@@ -51,7 +51,9 @@ public class SecurityConfiguration {
                                     new AntPathRequestMatcher("/myLoans"),
                                     new AntPathRequestMatcher("/myCards"),
                                     new AntPathRequestMatcher("/user"),
-                                    new AntPathRequestMatcher("/myBalance")).authenticated();
+                                    new AntPathRequestMatcher("/myBalance")).hasRole("ADMIN");
+
+                            requests.requestMatchers(new AntPathRequestMatcher("/user")).hasRole("USER");
 
                             requests.requestMatchers(new AntPathRequestMatcher("/contact"),
                                     new AntPathRequestMatcher("/notices"),
