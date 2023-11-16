@@ -1,6 +1,9 @@
 package com.dev.BankMate.config;
 
+import com.dev.BankMate.filter.AuthoriteisLoginAfterFilter;
+import com.dev.BankMate.filter.AuthoritiesLoggingAtFilter;
 import com.dev.BankMate.filter.CsrfCookieFilter;
+import com.dev.BankMate.filter.RequestValidationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,11 +28,15 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // CSRF Token Request Attribute Handler
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
 
-        return http.securityContext((context) -> context
-                        .requireExplicitSave(false))
+        return http
+                // Security Context Configuration
+                .securityContext(context -> context.requireExplicitSave(false))
+
+                // Session Management Configuration
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
 
                 // CORS Configuration
@@ -45,31 +52,44 @@ public class SecurityConfiguration {
                 // CSRF Filter
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
 
+                // Custom Filter to prevent the user with "test" from logging in
+                .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+
+                // Custom Filter to log the user info
+                .addFilterAfter(new AuthoriteisLoginAfterFilter(), BasicAuthenticationFilter.class)
+
+                // Custom Filter to log the Authentication progress
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+
                 // Authorization Rules
                 .authorizeHttpRequests(requests -> {
-                            requests.requestMatchers(new AntPathRequestMatcher("/myAccount"),
-                                    new AntPathRequestMatcher("/myLoans"),
-                                    new AntPathRequestMatcher("/myCards"),
-                                    new AntPathRequestMatcher("/user"),
-                                    new AntPathRequestMatcher("/myBalance")).hasRole("ADMIN");
+                    // Admin Role for specific paths
+                    requests.requestMatchers(
+                            new AntPathRequestMatcher("/myAccount"),
+                            new AntPathRequestMatcher("/myLoans"),
+                            new AntPathRequestMatcher("/myCards"),
+                            new AntPathRequestMatcher("/user"),
+                            new AntPathRequestMatcher("/myBalance")).hasRole("ADMIN");
 
-                            requests.requestMatchers(new AntPathRequestMatcher("/user")).hasRole("USER");
+                    // User Role for "/user" path
+                    requests.requestMatchers(new AntPathRequestMatcher("/user")).hasRole("USER");
 
-                            requests.requestMatchers(new AntPathRequestMatcher("/contact"),
-                                    new AntPathRequestMatcher("/notices"),
-                                    new AntPathRequestMatcher("/**"),
-                                    new AntPathRequestMatcher("/register")).permitAll();
-                        }
-                )
+                    // Permit all for specific paths
+                    requests.requestMatchers(
+                            new AntPathRequestMatcher("/contact"),
+                            new AntPathRequestMatcher("/notices"),
+                            new AntPathRequestMatcher("/**"),
+                            new AntPathRequestMatcher("/register")).permitAll();
+                })
 
-                // Form and Basic Authentication
+                // Form and Basic Authentication Configuration
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
 
                 .build();
     }
 
-
+    // Configure CORS (Cross-Origin Resource Sharing)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -77,6 +97,8 @@ public class SecurityConfiguration {
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Collections.singletonList("*"));
+
+        // Create a URL-based CORS configuration source for all paths
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -84,6 +106,8 @@ public class SecurityConfiguration {
 
     }
 
+
+    // Configure Password Encoder for secure password storage
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
