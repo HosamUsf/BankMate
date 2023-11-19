@@ -68,3 +68,29 @@ Ensure you have the following prerequisites installed:
    ```bash
    git clone https://github.com/HosamUsf/BankMate.git
    cd BankMate
+
+## Configuration
+
+1. **Application Properties:**
+   - Review and update the `application.properties` or `application.yml` file to configure any necessary settings, such as database connections, security configurations, etc.
+
+2. **External Services Configuration:**
+   - Configure external services (e.g., KeyCloak for authentication) by updating the necessary credentials and endpoints in the respective configuration files.
+
+3. **Database Configuration:**
+   - If applicable, configure database connection details in the `application.properties` file or any other configuration files related to the database setup.
+
+## Contributing
+
+Contributions are welcome! If you want to contribute to BankMate, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with a clear and concise commit message.
+4. Push your changes to your fork.
+5. Submit a pull request to the `main` branch of the original repository, explaining your changes.
+
+
+## License
+
+This project is licensed under the [Your License Name] - see the [LICENSE](LICENSE) file for details.
