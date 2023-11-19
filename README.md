@@ -19,16 +19,39 @@ Explore the BankMate application, a culmination of knowledge and expertise in bu
 
 ## Key Features
 
-- **Spring Security Integration:** Utilize the power of Spring Security for handling authentication and authorization.
-- **Password Management:** Implement robust password management techniques using PasswordEncoders.
-- **Security Protocols:** Address CSRF and CORS, and understand their significance and mitigation strategies.
-- **Authentication and Authorization:** Secure endpoint URLs using Ant, MVC, and Regex Matchers.
-- **Custom Filters:** Create and implement custom filters to enhance security.
-- **JWT and OAUTH2:** Deep dive into JSON Web Tokens and master OAUTH2 and its various grant type flows.
-- **Authorization Server Setup:** Implement a secure Authorization Server using KeyCloak.
-- **Role-Based Access Control:** Apply authorization rules using roles and authorities within the web application.
-- **Method Level Security:** Implement method-level security in both web and non-web applications.
-- **Social Login Integration:** Seamlessly integrate social login functionalities into the web application.
+Explore the diverse features of the BankMate application, designed to provide a secure and seamless banking experience:
+
+1. **Spring Security Integration:**
+   - Harness the power of Spring Security for robust handling of authentication and authorization, ensuring a fortified security layer.
+
+2. **Password Management:**
+   - Implement advanced password management techniques using PasswordEncoders to enhance the overall security of user credentials.
+
+3. **Security Protocols:**
+   - Address critical security concerns such as CSRF and CORS, understanding their significance and implementing effective mitigation strategies.
+
+4. **Authentication and Authorization:**
+   - Secure endpoint URLs using Ant, MVC, and Regex Matchers, establishing a reliable framework for user authentication and authorization.
+
+5. **Custom Filters:**
+   - Create and implement custom filters to augment security measures, tailoring the application's defense against potential threats.
+
+6. **JWT and OAUTH2:**
+   - Dive into the intricacies of JSON Web Tokens (JWT) and master the various grant type flows of OAuth2, enhancing authentication and authorization processes.
+
+7. **Authorization Server Setup:**
+   - Implement a secure Authorization Server using KeyCloak, elevating the application's overall security architecture.
+
+8. **Role-Based Access Control:**
+   - Apply fine-grained authorization rules using roles and authorities within the web application, ensuring precise access control.
+
+9. **Method Level Security:**
+   - Implement method-level security in both web and non-web applications, safeguarding critical functionalities from unauthorized access.
+
+10. **Social Login Integration:**
+    - Seamlessly integrate social login functionalities into the web application, providing users with convenient and secure authentication options.
+
+Stay ahead of evolving security challenges with BankMate's comprehensive feature set, designed to fortify your banking application against potential threats.
 
 ## How to Use
 
