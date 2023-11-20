@@ -1,9 +1,6 @@
 package com.dev.BankMate.config;
 
-import com.dev.BankMate.filter.AuthoriteisLoginAfterFilter;
-import com.dev.BankMate.filter.AuthoritiesLoggingAtFilter;
-import com.dev.BankMate.filter.CsrfCookieFilter;
-import com.dev.BankMate.filter.RequestValidationFilter;
+import com.dev.BankMate.filter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -33,11 +31,8 @@ public class SecurityConfiguration {
         requestHandler.setCsrfRequestAttributeName("_csrf");
 
         return http
-                // Security Context Configuration
-                .securityContext(context -> context.requireExplicitSave(false))
-
                 // Session Management Configuration
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // CORS Configuration
                 .cors(withDefaults())  // by default uses a Bean by the name of corsConfigurationSource
@@ -55,11 +50,17 @@ public class SecurityConfiguration {
                 // Custom Filter to prevent the user with "test" from logging in
                 .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
 
+                // Custom Filter to log the Authentication progress
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+
                 // Custom Filter to log the user info
                 .addFilterAfter(new AuthoriteisLoginAfterFilter(), BasicAuthenticationFilter.class)
 
-                // Custom Filter to log the Authentication progress
-                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                // Custom JWT Token Generator Filter
+                .addFilterAfter(new JWTTokenGeneratorFilter(),BasicAuthenticationFilter.class)
+
+                //Custom JWT Token Validator Filter
+                .addFilterBefore(new JWTTokenValidatorFilter(),BasicAuthenticationFilter.class)
 
                 // Authorization Rules
                 .authorizeHttpRequests(requests -> {
@@ -97,6 +98,7 @@ public class SecurityConfiguration {
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setExposedHeaders(List.of("Authorization"));
 
         // Create a URL-based CORS configuration source for all paths
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
