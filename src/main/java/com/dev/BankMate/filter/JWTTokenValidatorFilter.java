@@ -66,7 +66,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     // This method determines whether the filter should be applied  on login request.
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return request.getServletPath().equals("/user");
+        return (request.getServletPath().equals("/user") || request.getServletPath().equals("/contact"));
     }
 }
 

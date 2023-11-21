@@ -67,13 +67,13 @@ public class SecurityConfiguration {
                     // Admin Role for specific paths
                     requests.requestMatchers(
                             new AntPathRequestMatcher("/myAccount"),
-                            new AntPathRequestMatcher("/myLoans"),
+//                            new AntPathRequestMatcher("/myLoans"),
                             new AntPathRequestMatcher("/myCards"),
                             new AntPathRequestMatcher("/user"),
-                            new AntPathRequestMatcher("/myBalance")).hasRole("ADMIN");
+                            new AntPathRequestMatcher("/myBalance")).hasAnyRole("ADMIN","USER");
 
-                    // User Role for "/user" path
-                    requests.requestMatchers(new AntPathRequestMatcher("/user")).hasRole("USER");
+                    requests.requestMatchers(new AntPathRequestMatcher("/user"),
+                            new AntPathRequestMatcher("/myLoans")).authenticated();
 
                     // Permit all for specific paths
                     requests.requestMatchers(
