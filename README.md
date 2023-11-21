@@ -1,6 +1,7 @@
 # BankMate - Secure Banking Application
 
-Welcome to BankMate, a robust and secure web system built on the principles of Spring Security. This application exemplifies a mastery of Spring Security concepts, showcasing an in-depth understanding of authentication, authorization, and other essential security features.
+Welcome to BankMate,
+BankMate is a comprehensive web application that demonstrates a high level of expertise in secure web development, particularly in Spring Security. The project showcases advanced proficiency in authentication, authorization, and key security features, employing cutting-edge technologies such as JWT, OAUTH2, and a secure Authorization Server using KeyCloak.
 
 ## Table of Contents
 
