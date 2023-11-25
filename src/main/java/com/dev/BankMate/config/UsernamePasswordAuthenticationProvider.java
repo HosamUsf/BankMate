@@ -38,6 +38,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         } else {
             throw new BadCredentialsException("Sorry, either your email or password is incorrect.");
         }
+
     }
 
     private List<GrantedAuthority> getGrantedAuthority(Set<Authority> authorities) {
