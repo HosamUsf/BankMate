@@ -5,13 +5,8 @@ import com.dev.BankMate.request.RegistrationRequest;
 import com.dev.BankMate.user.AppUser;
 import com.dev.BankMate.user.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,6 +26,6 @@ public class RegistrationService {
         AppUser newAppUser = new AppUser(request.username(), request.email(),encodedPassword ,request.mobileNumber(), request.role());
         newAppUser.setCreatedAt(LocalDateTime.now());
         userRepository.save(newAppUser);
-        return "Given user details are successfully registerd";
+        return "Given user details are successfully registered";
     }
 }
