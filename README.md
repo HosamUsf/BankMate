@@ -1,5 +1,8 @@
 # BankMate - Secure Banking Application
 
+![image](https://github.com/HosamUsf/BankMate/assets/57178026/3622104b-8882-4714-a480-01f0e94a6b1f)
+
+
 Welcome to BankMate,
 BankMate is a comprehensive web application that demonstrates a high level of expertise in secure web development, particularly in Spring Security. The project showcases advanced proficiency in authentication, authorization, and key security features, employing cutting-edge technologies such as JWT, OAUTH2, and a secure Authorization Server using KeyCloak.
 
