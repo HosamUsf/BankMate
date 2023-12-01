@@ -99,7 +99,7 @@ Ensure you have the following prerequisites installed:
 ## Configuration
 
 1. **Application Properties:**
-   - Review and update the `application.properties` or `application.yml` file to configure any necessary settings, such as database connections, security configurations, etc.
+   - Review and update the `application.properties` file to configure any necessary settings, such as database connections, security configurations, etc.
 
 2. **External Services Configuration:**
    - Configure external services (e.g., KeyCloak for authentication) by updating the necessary credentials and endpoints in the respective configuration files.
