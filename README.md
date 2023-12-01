@@ -1,6 +1,7 @@
 # BankMate - Secure Banking Application
 
 ![image](https://github.com/HosamUsf/BankMate/assets/57178026/52112c0f-b332-4755-819d-e8144ec0599f)
+![image](https://github.com/HosamUsf/BankMate/assets/57178026/00c4918f-7837-4c11-bdc4-346f9d73fb2f)
 
 
 
